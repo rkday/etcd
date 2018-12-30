@@ -201,6 +201,11 @@ function functional_pass {
   	# Clean up any data and logs from previous runs
   	rm -rf /tmp/etcd-functional-* /tmp/etcd-functional-*.backup
 
+	if ! command -v nc >/dev/null; then
+		echo "netcat (nc) not installed"
+		exit 255
+	fi
+
 	for a in 1 2 3; do
 		./bin/etcd-agent --network tcp --address 127.0.0.1:${a}9027 &
 		pid="$!"
